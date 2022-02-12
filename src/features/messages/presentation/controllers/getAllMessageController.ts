@@ -8,8 +8,7 @@ import { MessageRepository } from "../../infra/repositories/MessageRepository";
 export class GetAllMessageController implements Controller {
   async handle(req: Request, res: Response): Promise<any> {
     try {
-      const { uid_user } = req.params;
-
+      
       const cache = new CacheRepository();
 
       const messagesCache = await cache.get("messages:List");
@@ -17,11 +16,11 @@ export class GetAllMessageController implements Controller {
       if (messagesCache) {
         return ok(
           res,
-          (messagesCache as Message[]).map((message) =>
-            Object.assign({}, message, { _cache: true })
-          )
+          (messagesCache as Message[]).map((mensagem) => mensagem)
         );
       }
+      
+      const { uid_user } = req.params;
 
       const repository = new MessageRepository();
 
@@ -29,7 +28,7 @@ export class GetAllMessageController implements Controller {
 
       if (message.length === 0) return notFound(res);
 
-      await cache.set(`messages:List`, message);
+      await cache.set(`messages`, message);
 
       return ok(res, message)
     } catch (error: any) {
