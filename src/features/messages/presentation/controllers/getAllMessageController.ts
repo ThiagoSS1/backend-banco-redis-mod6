@@ -11,7 +11,7 @@ export class GetAllMessageController implements Controller {
       
       const cache = new CacheRepository();
 
-      const messagesCache = await cache.get("messages:List");
+      const messagesCache = await cache.get("messages");
 
       if (messagesCache) {
         return ok(
