@@ -10,7 +10,7 @@ export default class Redis {
   async openConnection(): Promise<void> {
     if (!Redis.connection) {
       try {
-        Redis.connection = new IORedis(process.env.REDISCLOUD_URL);
+        Redis.connection = new IORedis(process.env.REDIS_URL);
       } catch (error) {
         throw new Error(`ERRO AO CONECTAR NO REDIS -> ${error}`);
       }
